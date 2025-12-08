@@ -1,0 +1,70 @@
+#####################################################################
+# DOCKER COMPOSE FILE FOR NEBULA-SYNC                               #
+# WORKS WITH OR WITHOUT DOCKER SECRETS                              #
+#                                                                   #
+# DETAILED CONFIGURATION INSTRUCTIONS AT:                           #
+# https://github.com/stevejenkins/nebula-sync-docker-secrets-config #
+#####################################################################
+
+services:
+  nebula-sync:
+    image: ghcr.io/lovelaze/nebula-sync:latest
+    container_name: nebula-sync
+
+# UNCOMMENT THIS SECTION IF USING DOCKER SECRETS
+################################################
+    user: 1234:1234 # RUN AS USER WITH OWNERSHIP PERMISSIONS OF PLAIN TEXT SECRETS FILES
+    secrets:
+      - primary
+      - replicas
+################################################
+
+    environment:
+    - TZ=America/Los_Angeles
+    - FULL_SYNC=false # SETTING TO "false" ENABLES THE SELECTIVE SYNC OPTIONS BELOW
+    - RUN_GRAVITY=false # true: PIHOLE WILL RUN "pihole -g" AFTER EVERY SYNC | false: KEEP DEFAULT "pihole -g" SCHEDULE
+    - CRON=0 */8 * * * # SYNCRONIZE PI-HOLES EVERY 8 HOURS
+
+    # UNCOMMENT IF USING DOCKER SECRETS:
+    ####################################
+    - PRIMARY_FILE=/run/secrets/primary # DOCKER WILL CREATE THIS FILE AUTOMATICALLY
+    - REPLICAS_FILE=/run/secrets/replicas # DOCKER WILL CREATE THIS FILE AUTOMATICALLY
+    #####################################
+
+    # UNCOMMENT IF NOT USING DOCKER SECRETS:
+    ########################################
+    # - PRIMARY=http://123.123.123.123:8089|API_PASSWORD
+    # - REPLICAS=http://124.124.124.124:80|API_PASSWORD,http://125.125.125.125:80|API_PASSWORD
+    ########################################
+
+    # CLIENT OPTIONS
+    - CLIENT_SKIP_TLS_VERIFICATION=true
+    - CLIENT_RETRY_DELAY_SECONDS=15
+    - CLIENT_TIMEOUT_SECONDS=45
+
+    # CONFIG SYNC OPTIONS
+    - SYNC_CONFIG_DNS=true
+    - SYNC_CONFIG_DHCP=false
+    - SYNC_CONFIG_NTP=false
+    - SYNC_CONFIG_RESOLVER=false
+    - SYNC_CONFIG_DATABASE=false
+    - SYNC_CONFIG_MISC=false
+    - SYNC_CONFIG_DEBUG=false
+
+    # GRAVITY SYNC OPTIONS
+    - SYNC_GRAVITY_DHCP_LEASES=false
+    - SYNC_GRAVITY_GROUP=false
+    - SYNC_GRAVITY_AD_LIST=true
+    - SYNC_GRAVITY_AD_LIST_BY_GROUP=true
+    - SYNC_GRAVITY_DOMAIN_LIST=true
+    - SYNC_GRAVITY_DOMAIN_LIST_BY_GROUP=true
+    - SYNC_GRAVITY_CLIENT=false
+    - SYNC_GRAVITY_CLIENT_BY_GROUP=false
+
+secrets:
+    # LOCATION OF PLAIN TEXT FILES FOR DOCKER SECRETS
+    # THESE FILES SHOULD BE OWNED BY USER 1234 AND HAVE -r----- PERMISSIONS
+    primary:
+      file: ./secrets/primary.txt
+    replicas:
+      file: ./secrets/replicas.txt
