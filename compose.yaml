@@ -60,11 +60,14 @@ services:
     - SYNC_GRAVITY_DOMAIN_LIST_BY_GROUP=true
     - SYNC_GRAVITY_CLIENT=false
     - SYNC_GRAVITY_CLIENT_BY_GROUP=false
-
+    
+# UNCOMMENT IF USING DOCKER SECRETS
+###################################
 secrets:
-    # LOCATION OF PLAIN TEXT FILES FOR DOCKER SECRETS
-    # THESE FILES SHOULD BE OWNED BY USER 1234 AND HAVE -r----- PERMISSIONS
-    primary:
-      file: ./secrets/primary.txt
-    replicas:
-      file: ./secrets/replicas.txt
+# LOCATION OF PLAIN TEXT FILES FOR DOCKER SECRETS
+# THESE FILES SHOULD BE OWNED BY USER 1234 AND HAVE -r----- PERMISSIONS
+  primary:
+    file: ./secrets/primary.txt
+  replicas:
+    file: ./secrets/replicas.txt
+###################################
