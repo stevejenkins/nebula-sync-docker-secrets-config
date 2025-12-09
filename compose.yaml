@@ -4,6 +4,8 @@
 #                                                                   #
 # DETAILED CONFIGURATION INSTRUCTIONS AT:                           #
 # https://github.com/stevejenkins/nebula-sync-docker-secrets-config #
+#                                                                   #
+# Based on example from https://github.com/lovelaze/nebula-sync/    #
 #####################################################################
 
 services:
@@ -44,6 +46,7 @@ services:
 
     # CONFIG SYNC OPTIONS
     - SYNC_CONFIG_DNS=true
+    - SYNC_CONFIG_DNS_EXCLUDE=interface,reply.host.force4,reply.host.IPv4,reply.host.force6,reply.host.IPv6
     - SYNC_CONFIG_DHCP=false
     - SYNC_CONFIG_NTP=false
     - SYNC_CONFIG_RESOLVER=false
@@ -60,7 +63,7 @@ services:
     - SYNC_GRAVITY_DOMAIN_LIST_BY_GROUP=true
     - SYNC_GRAVITY_CLIENT=false
     - SYNC_GRAVITY_CLIENT_BY_GROUP=false
-    
+
 # UNCOMMENT IF USING DOCKER SECRETS
 ###################################
 secrets:
