@@ -9,11 +9,11 @@ Easy Docker compose file for [nebula-sync](https://github.com/lovelaze/nebula-sy
 - Make sure your network is configured so that the server that runs Docker can ping/access the IP addresses of all Replicas. Most users run Docker (and thererefore the nebula-sync container) on the same server as the Primary Pi-hole, but it's not required. Any Docker host that can ping/access all the Pi-holes you wish to syncronize will work... even if that Docker host isn't running Pi-hole.
 
 ## Step 1: Clone this Repository to your Docker host
-After verifying that your Docker host can reach all your Pi-hole servers, download a copy of this repo into a new folder called ```/opt/nebula-sync```:
-```
-git clone https://github.com/stevejenkins/nebula-sync-docker-secrets-config.git /opt/nebula-sync
-```
+```git clone https://github.com/stevejenkins/nebula-sync-docker-secrets-config.git /opt/nebula-sync```
 
+```nano /opt/nebula-sync/secrets/primary.txt```
+
+Replace http://123.123.123.123:8049 with IP address or hostname of the Primary Pi-hole.
 ## Step 2: Configure API access to your Pi-holes
 
 
