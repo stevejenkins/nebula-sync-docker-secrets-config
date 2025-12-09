@@ -13,7 +13,9 @@ Easy Docker compose file for [nebula-sync](https://github.com/lovelaze/nebula-sy
 
 ```nano /opt/nebula-sync/secrets/primary.txt```
 
-Replace http://123.123.123.123:8049 with IP address or hostname of the Primary Pi-hole.
+Replace http://123.123.123.123:8080 with IP address or hostname of the Primary Pi-hole.
+
+This can be https or http. Default ports (:80 and :443) aren't required. My compose.yaml file assumes an invalid TLS certficate and turns off  off TLS certificate verification, but if your Pi-hole has a valid cert and displays the https in green, you can change it to true https If you have a self-signed certificate and want to skip TLS certficate verification you can turn it off
 ## Step 2: Configure API access to your Pi-holes
 
 
